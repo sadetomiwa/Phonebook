@@ -10,7 +10,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/contacts')
+@app.route('/contacts', methods=['GET', 'POST'])
 def contacts():
     form = AddContactForm()
     if form.validate_on_submit():
