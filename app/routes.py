@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template, redirect, url_for, flash
 from app.forms import AddContactForm 
+from app.models import Address
 
 
 
@@ -20,7 +21,8 @@ def contacts():
         phone = form.phone.data
         address = form.address.data
         print(first_name, last_name, phone, address)
-        flash(f"{first_name} {last_name} has been added to the rolodex")
+        new_contact = Address(first_name=first_name, last_name=last_name, phone=phone, address=address)
+        flash(f"{new_contact.first_name} {new_contact.last_name} has been added to the rolodex")
         return redirect (url_for('index'))
     return render_template('contacts.html', form = form)
 
