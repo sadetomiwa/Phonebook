@@ -19,6 +19,9 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
 
+login.login_view = 'login'
+login.login_message = 'Please log in to access this page.'
+login.login_message_category = 'info'
 
 
 #import all of the routes from the route file into the current package

@@ -12,6 +12,7 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     date_joined = db.Column(db.DateTime, default=datetime.utcnow)
+    address = db.relationship('Address', backref='user', lazy=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -34,6 +35,7 @@ class Address(db.Model):
     address = db.Column(db.String(64))
     email = db.Column(db.String(64))
     notes = db.Column(db.String(64))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
         return f"Address('{self.first_name}', '{self.last_name}', '{self.phone}', '{self.address}', '{self.email}', '{self.notes}')"
@@ -47,3 +49,6 @@ class Address(db.Model):
 @login.user_loader
 def geu_user_by_id(user_id):
     return db.session.get(Users, user_id)
+
+
+

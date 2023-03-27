@@ -9,12 +9,21 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
 def index():
+
     return render_template('index.html')
 
 
 
 
+@app.route('/view')
+def view():
+    addresses = Address.query.all()
+    return render_template('view.html', addresses = addresses)
+
+    
+
 @app.route('/contacts', methods=['GET', 'POST'])
+@login_required
 def contacts():
     form = AddContactForm()
     if form.validate_on_submit():
@@ -23,8 +32,7 @@ def contacts():
         last_name = form.last_name.data
         phone = form.phone.data
         address = form.address.data
-        print(first_name, last_name, phone, address)
-        new_contact = Address(first_name=first_name, last_name=last_name, phone=phone, address=address)
+        new_contact = Address(first_name=first_name, last_name=last_name, phone=phone, address=address, user_id=current_user.id)
         flash(f"{new_contact.first_name} {new_contact.last_name} has been added to the rolodex")
         return redirect (url_for('index'))
     return render_template('contacts.html', form = form)
@@ -77,12 +85,6 @@ def logout():
     flash("You have successfully logged out", "success")
     return redirect(url_for('index'))
 
-
-@app.route('view')
-def view():
-
-    return render_template('view.html')
-    pass
     
 
 

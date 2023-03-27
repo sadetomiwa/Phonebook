@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block header %}
+    <h1>Welcome to the Kekambas Blog</h1>
+    {% if current_user.is_authenticated %}
+        <h5>Nice to see you again, {{ current_user.username }}!</h5>
+    {% else %}
+        <h5>Please Sign Up or Log In to Create New Posts</h5>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <!-- Left 2/3 Column -->
+        <div class="col-12 col-lg-8 order-1 order-lg-0">
+
+            {% for address in addresses %}
+                <div class="card mt-3">
+                    <div class="row g-0">
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ address.first_name }} {{address.last_name}}</h5>
+                                <p class="card-text">{{ address.phone }}</p>
+                                <p class="card-text">{{ address.address }}</p>
+                                <p class="card-text">Email:{{ address.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    
+    </div>
+
+{%endblock%}
