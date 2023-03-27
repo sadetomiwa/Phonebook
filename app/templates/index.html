@@ -3,8 +3,12 @@
 {% block title %} Home {% endblock %}
 
 {% block header %}
-<h1>Phone Book</h1>
-<h5>Store your contacts here</h5>
+    <h1>Phone Book</h1>
+    {%if current_user.is_authenticated%}
+        <h5> Welcome back {{current_user.username}}</h5>  
+    {%else%}
+        <h5> Please sign up or Login to use Rolodex</h5>
+    {%endif%}
 {% endblock %}
 
 {% block content %}

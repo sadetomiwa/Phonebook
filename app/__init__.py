@@ -4,6 +4,7 @@ from config import Config
 #IMPORT THE CLASSES FROM FLASK-SQLALCHEMY
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager
 
 
 
@@ -16,6 +17,7 @@ app.config.from_object(Config)
 #CREATE AN INSTANCE OF THE SQLALCHEMY CLASS TO CONNECT APP TO THE DATABASE
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+login = LoginManager(app)
 
 
 
