@@ -25,7 +25,12 @@
                                 <p class="card-text">{{ address.phone }}</p>
                                 <p class="card-text">{{ address.address }}</p>
                                 <p class="card-text">Email:{{ address.email }}</p>
+                                {% if address.user == current_user %}
+                                <a href="/" class = "btn btn-success">Edit</a>
+                                <a href="/" class = "btn btn-danger">Delete</a>
+                                {% endif %}
                             </div>
+
                         </div>
                     </div>
                 </div>

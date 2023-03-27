@@ -87,6 +87,42 @@ def logout():
 
     
 
+@app.route('/edit/<address_id>', methods=['GET', 'POST'])
+@login_required
+def edit_contact(address_id):
+    form = AddContactForm()
+    address_edit = Address.query.get_or_404(address_id)
+    if address_edit.user_id!= current_user:
+        flash("You are not authorized to edit this contact", "danger")
+        return redirect(url_for('view'))
+    if form.validate_on_submit():
+        address_edit.first_name = form.first_name.data
+        address_edit.last_name = form.last_name.data
+        address_edit.phone = form.phone.data
+        address_edit.address = form.address.data
+        db.session.commit()
+        flash(f"{address_edit.first_name} {address_edit.last_name} has benn edited", "success")
+        return redirect(url_for('view'))
+    
+    form.first_name.data = address_edit.first_name
+    form.last_name.data = address_edit.last_name
+    form.phone.data = address_edit.phone
+    form.address.data = address_edit.address
+    return render_template('edit.html', form= form, addresses = address_edit)
+    
+
+@app.route('/delete/<address_id>', methods=['GET', 'POST'])
+@login_required
+def delete_contact(address_id):
+    address_delete = Address.query.get_or_404(address_id)
+    if address_delete.user_id!= current_user:
+        flash("You are not authorized to delete this contact", "danger")
+        return redirect(url_for('view'))
+    db.session.delete(address_delete)
+    db.session.commit()
+    flash(f"{address_delete.first_name} {address_delete.last_name} has been deleted", "success")
+    return redirect(url_for('view'))
+
 
 
 
