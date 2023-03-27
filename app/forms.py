@@ -34,3 +34,6 @@ class AddContactForm(FlaskForm):
 
 
 
+class SearchForm(FlaskForm):
+    search_term = StringField('Search Term')
+    submit = SubmitField('Search')

@@ -1,6 +1,6 @@
 from app import app, db
 from flask import render_template, redirect, url_for, flash
-from app.forms import AddContactForm, SignUpForm, LoginForm
+from app.forms import AddContactForm, SignUpForm, LoginForm, SearchForm
 from app.models import Address, Users
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -9,8 +9,12 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
 def index():
-
-    return render_template('index.html')
+    addresses = Address.query.all()
+    form = SearchForm()
+    if form.validate_on_submit():
+        search_term = form.search_term.data
+        addresses = db.session.execute(db.select(Address).where((Address.first_name.ilike(f"%{search_term}%")) | (Address.last_name.ilike(f"%{search_term}%")))).scalars().all()
+    return render_template('index.html', addresses=addresses, form=form)
 
 
 
@@ -92,7 +96,7 @@ def logout():
 def edit_contact(address_id):
     form = AddContactForm()
     address_edit = Address.query.get_or_404(address_id)
-    if address_edit.user_id!= current_user:
+    if address_edit.user != current_user:
         flash("You are not authorized to edit this contact", "danger")
         return redirect(url_for('view'))
     if form.validate_on_submit():

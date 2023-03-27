@@ -23,10 +23,11 @@
         <div class="card mt-3">
             <div class="card-header">Search Contacts</div>
             <div class="card-body">
-                <form action="">
+                <form action="" method="post">
+                    {{form.csrf_token}}
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Enter first or last name...">
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        {{form.search_term(class="form-control", placeholder="Search....")}}
+                        {{form.submit(class="btn btn-primary)}}
                     </div>
                 </form>
             </div>
